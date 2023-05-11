@@ -7,12 +7,23 @@ import { Dialog } from "primereact/dialog";
 import { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
+import axios from "axios";
+
+async function users(){
+	try {
+		const response = await axios.get("https://bibliotecaapiv3.azurewebsites.net/api/Documentos/List");
+		console.log(response);
+	} catch (error) {
+		console.error(error);
+	}
+}
 
 
 export const Home = () => {
 	const [bookDialog, setBookDialog] = useState(false); 
 	const [deleteBookDialog, setDeleteBookDialog] = useState(false); 
 	const [selectedBook, setSelectedBook] = useState();
+	users();
 	const books = [
 		{
 			id: 1,
