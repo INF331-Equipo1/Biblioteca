@@ -162,7 +162,7 @@ export const Home = () => {
 						);
 					}
 					}></Column> */}
-					<Column field="nombre" header="Nombre"></Column>
+					<Column field="nombre" header="Nombre" sortable></Column>
 					<Column field="autor" header="Autor"></Column>
 					<Column field="cantidad" header="Cantidad disponible"></Column>
 					<Column field="editorial" header="Editorial"></Column>
