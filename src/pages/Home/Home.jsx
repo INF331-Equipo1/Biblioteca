@@ -28,11 +28,6 @@ export const Home = () => {
 	const [filteredValue, setFilteredValue] = useState();
 	
 	const [books, setBooks] = useState([]);
-	const updateBooks = () => {
-		GetDocumentos().then((documents) => {
-			setBooks(documents.item);
-		});
-	};
 	useEffect(() => {
 		setGlobalFilterValue("");
 		GetDocumentos().then((documents) => {
@@ -71,7 +66,11 @@ export const Home = () => {
 	};
 	const secondDeleteBook = () => {
 		DeleteDocumentos(selectedBook.id_documento).then(() =>{
-			updateBooks();
+			GetDocumentos().then((documents) => {
+				setBooks(documents.item);
+				setFilteredValue(documents.item);
+				setGlobalFilterValue("");
+			});
 			setDeleteBookDialog(false);
 			setSelectedBook();
 		});
@@ -123,13 +122,21 @@ export const Home = () => {
 			setLoading(true);
 			if (showEditBook) {
 				EditDocumento(data).then(() => {
-					updateBooks();
+					GetDocumentos().then((documents) => {
+						setBooks(documents.item);
+						setFilteredValue(documents.item);
+						setGlobalFilterValue("");
+					});
 					setLoading(false);
 					setShowEditBook(false);
 				});
 			} else if (showCreatBook) {
 				CreatDocumento(data).then(() => {
-					updateBooks();
+					GetDocumentos().then((documents) => {
+						setBooks(documents.item);
+						setFilteredValue(documents.item);
+						setGlobalFilterValue("");
+					});
 					setLoading(false);
 					setShowCreatBook(false);
 				});
