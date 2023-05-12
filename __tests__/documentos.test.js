@@ -77,11 +77,11 @@ describe("EditDocumento", () => {
 	it("edita un documento correctamente", async () => {
 		const mockDocument = {
 			"id_documento": 0,
-			"nombre": "string",
+			//"nombre": "string",
 			"autor": "string",
 			"cantidad": 0,
-			"descripcion": "string",
-			"foto": "string",
+			//"descripcion": "string",
+			//"foto": "string",
 			"editorial": "string",
 			"fechaPublicacion": "2023-04-30T18:16:48.031Z",
 			"codigoUbicacion": "string"
@@ -89,11 +89,11 @@ describe("EditDocumento", () => {
   
 		fetch.mockResponseOnce(JSON.stringify({ data: "12345" }));
 		
-		const response = await EditDocumento(0, mockDocument);
+		const response = await EditDocumento(mockDocument);
   
 		expect(response).toEqual({ data: "12345" });
 		expect(fetch.mock.calls.length).toEqual(1);
-		expect(fetch.mock.calls[0][0]).toEqual("https://bibliotecaapiv3.azurewebsites.net/api/Documentos/Edit/0");
+		expect(fetch.mock.calls[0][0]).toEqual("https://bibliotecaapiv3.azurewebsites.net/api/Documentos/Edit");
 		expect(fetch.mock.calls[0][1]).toEqual({
 			method: "PUT",
 			headers: {
@@ -107,7 +107,7 @@ describe("EditDocumento", () => {
 		fetch.mockReject(() => Promise.reject("Error de API"));
   
 		try {
-			await EditDocumento(0, {});
+			await EditDocumento({});
 		} catch(e) {
 			expect(e).toEqual("Error de API");
 		}
@@ -128,7 +128,7 @@ describe("DeleteDocumentos", () => {
   
 		expect(response).toEqual({ data: "12345" });
 		expect(fetch.mock.calls.length).toEqual(1);
-		expect(fetch.mock.calls[0][0]).toEqual("https://bibliotecaapiv3.azurewebsites.net/api/Documentos/Delete/0");
+		expect(fetch.mock.calls[0][0]).toEqual("https://bibliotecaapiv3.azurewebsites.net/api/Documentos/Delete?id_documento=0");
 		expect(fetch.mock.calls[0][1]).toEqual({
 			method: "DELETE"
 		});

@@ -19,10 +19,10 @@ export const CreatDocumento = async (document) => {
 	}
 };
 
-export const EditDocumento = async (id, document) => {
+export const EditDocumento = async (document) => {
 	try{
 		const response = await fetch(
-			`https://bibliotecaapiv3.azurewebsites.net/api/Documentos/Edit/${id}`,{
+			"https://bibliotecaapiv3.azurewebsites.net/api/Documentos/Edit",{
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json"
@@ -56,7 +56,7 @@ export const GetDocumentos = async () => {
 export const DeleteDocumentos = async (id) => {
 	try{
 		const response = await fetch(
-			`https://bibliotecaapiv3.azurewebsites.net/api/Documentos/Delete/${id}`, {
+			`https://bibliotecaapiv3.azurewebsites.net/api/Documentos/Delete?id_documento=${id}`, {
 				method: "DELETE"
 			}
 		);
