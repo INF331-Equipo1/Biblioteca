@@ -45,7 +45,8 @@ export const GetDocumentos = async () => {
 		const response = await fetch(
 			"https://bibliotecaapiv3.azurewebsites.net/api/Documentos/List"
 		);
-		const documentos = await response.json();
+		let documentos = await response.json();
+		console.log(documentos);
 		return documentos;
 	}
 	catch(error){

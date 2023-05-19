@@ -15,10 +15,9 @@ import { useFormik } from "formik";
 import { Calendar } from "primereact/calendar";
 import { BlockUI } from "primereact/blockui";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { act } from "react-dom/test-utils";
 
-
-
-export const Home = () => {
+const Home = () => {
 	const [showEditBook, setShowEditBook] = useState(false); 
 	const [showCreatBook, setShowCreatBook] = useState(false); 
 	const [deleteBookDialog, setDeleteBookDialog] = useState(false); 
@@ -31,8 +30,15 @@ export const Home = () => {
 	useEffect(() => {
 		setGlobalFilterValue("");
 		GetDocumentos().then((documents) => {
-			setBooks(documents.item);
-			setFilteredValue(documents.item);
+			try {
+				setBooks(documents.item);
+				setFilteredValue(documents.item);
+			} catch (error) {
+				let x = [];
+				act(() => { setBooks(x);});
+				act(() => { setFilteredValue(x);});
+			}
+			
 		});
 	},[]);
 
@@ -77,17 +83,17 @@ export const Home = () => {
 	};
 	const acciones = (rowData) => {
 		return (
-			<>
+			<div>
 				<Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editBook(rowData)}/>
-				<Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => firstDeleteBook(rowData)} />
-			</>
+				<Button icon="pi pi-trash" className="p-button-rounded p-button-warning" data-testid="btn-eliminar" onClick={() => firstDeleteBook(rowData)} />
+			</div>
 		);
 	};
 	const deleteBookDialogFooter = (
-		<>
-			<Button label="No" icon="pi pi-times" className="p-button-text" onClick={() => setDeleteBookDialog(false)} />
+		<div>
+			<Button label="No" icon="pi pi-times" className="p-button-text" id="hola" onClick={() => setDeleteBookDialog(false)} />
 			<Button label="Si" icon="pi pi-check" className="p-button-text" onClick={() => secondDeleteBook()} />
-		</>
+		</div>
 	);
 
 	const tableHeader = (
@@ -99,7 +105,7 @@ export const Home = () => {
 				</span>
 			</div>
 			<div className="flex align-items-center justify-content-center">
-				<Button icon="pi pi-plus" aria-label="Filter" onClick={() => setShowCreatBook(true)}/>
+				<Button icon="pi pi-plus" aria-label="NuevoLibro" onClick={() => setShowCreatBook(true)}/>
 			</div>
 		</div>
 	);
@@ -175,6 +181,7 @@ export const Home = () => {
 				visible={deleteBookDialog} style={{ width: "500px" }} 
 				header="Confirmar" modal onHide={() => setDeleteBookDialog(false)}
 				footer={deleteBookDialogFooter}
+				data-testid="DialogEliminar"
 			>
 				<div className="flex align-items-center justify-content-center">
 					<i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: "2rem" }} />
@@ -259,3 +266,4 @@ export const Home = () => {
 		</div>
 	);
 };
+export { Home };
